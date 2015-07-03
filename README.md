@@ -10,7 +10,7 @@
 
 ![HTTP](https://github.com/tangwz/WebServer/blob/master/docs/http.PNG)
 
-关于HTTP头部请求中的信息，请参考《HTTP权威指南》。
+我们要做的就是解析这个HTTP请求，关于HTTP请求头部中的信息，请参考《HTTP权威指南》。
 
 
 
