@@ -12,6 +12,20 @@
 
 我们要做的就是解析这个HTTP请求，关于HTTP请求头部中的信息，请参考《HTTP权威指南》。
 
+## Support
+
+-Support GET/HEAD method
+
+## Todo
+
+-add command line parameter
+-add conf file
+-sendfile
+-dynamic content
+-other HTTP/1.1 features
+-memory pool
+-close socket when timeout
+
 
 
 ## 参考资料：
