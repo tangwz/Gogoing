@@ -1,5 +1,6 @@
 # Gogoing
 自己重新造的轮子，一个轻量型Http Server，用于综合考察学习了大半年的Linux服务器编程，理解服务器编程的本质。
+
 __注：名字叫Gogoing，但和Golang没有任何关系。__
 
 ## 一次HTTP请求
