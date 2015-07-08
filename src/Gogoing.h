@@ -3,12 +3,12 @@
  * Copyright (C) 2015 Tangwz. All rights reserved.
  * 
  * Author:       Tangwz
- * File Name:    webserver.h
+ * File Name:    Gogoing.h
  * Data:         2015/6/3
  * Blog:         tangwz.com
  */
 
-#ifndef _WEBSERVER_H_
-#define _WEBSERVER_H_
+#ifndef _GOGOING_H_
+#define _GOGOING_H_
 
 #endif
