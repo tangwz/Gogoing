@@ -9,7 +9,8 @@ __注：名字叫Gogoing，但和Golang没有任何关系。__
 
 ## Support
 
- - Support GET/HEAD method
+ - Support GET/HEAD/POST method
+ - Support Keepalive
 
 ## Todo
 
