@@ -1,5 +1,5 @@
 /*
- * WebServer -- A mini HTTP Server
+ * Gogoing -- A mini HTTP Server
  * Copyright (C) 2015 Tangwz. All rights reserved.
  * 
  * Author:       Tangwz

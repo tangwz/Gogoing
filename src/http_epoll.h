@@ -3,12 +3,12 @@
  * Copyright (C) 2015 Tangwz. All rights reserved.
  * 
  * Author:       Tangwz
- * File Name:    Gogoing.h
+ * File Name:    http_epoll.h
  * Data:         2015/6/3
  * Blog:         tangwz.com
  */
 
-#ifndef _GOGOING_H_
-#define _GOGOING_H_
+#ifndef _HTTP_EPOLL_H_
+#define _HTTP_EPOLL_H_
 
 #endif
