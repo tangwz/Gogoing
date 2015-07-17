@@ -3,13 +3,22 @@
  * Copyright (C) 2015 Tangwz. All rights reserved.
  * 
  * Author:       Tangwz
- * File Name:    utility.h
+ * File Name:    Gogoing_util.h
  * Data:         2015/6/3
  * Blog:         tangwz.com
  */
 
-#ifndef _UTILITY_H_
-#define _UTILITY_H_
+#ifndef _GOGOING_UTIL_H_
+#define _GOGOING_UTIL_H_
+
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <netdb.h>
+#include <strings.h>
+#include <string>
+#include <string.h>
 
 using namespace std;
 
@@ -49,5 +58,11 @@ void going_listen(int sockfd, int backlog);
 void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen);
 int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen);
 
+/*
+ * Memeroy wrapper function
+ */
+void *going_calloc(size_t nmemb, size_t size);
+void *going_malloc(size_t size);
+void going_free(void *ptr);
 
 #endif
