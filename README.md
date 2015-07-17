@@ -1,4 +1,8 @@
 # Gogoing
+>"What I cannot create, I do not understand."
+
+>-- Richard Feynman
+
 自己重新造的轮子，一个轻量型Http Server，用于综合考察学习了大半年的Linux服务器编程，理解服务器编程的本质。
 
 __注：名字叫Gogoing，但和Golang没有任何关系。PS:注释尽力用英文，实在无法描述时改用中文，勿喷。__
