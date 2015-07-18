@@ -12,6 +12,40 @@
 
 
 /*
+ * Socket wrapper function 
+ */
+int going_socket(int domain, int type, int protocol)
+{
+	int listen_fd;
+	if( (listen_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+		perror("socket create failed.");
+		exit(-1);
+	}
+	return listen_fd;
+}
+
+void going_listen(int sockfd, int backlog)
+{
+	if(listen(sockfd, backlog) == -1){
+		perror("listen failed.");
+		exit(-1);
+	}
+}
+
+void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen)
+{
+	if(bind(sockfd, addr, addrlen) < 0){
+		perror("bind failed.");
+		exit(-1);
+	}
+}
+
+int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen)
+{
+	
+}
+
+/*
  * Memeroy wrapper function
  */
 void *going_calloc(size_t nmemb, size_t size)
