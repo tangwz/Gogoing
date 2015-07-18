@@ -51,6 +51,24 @@ void going_set_nonblocking(int fd);
 int going_get_file_length(const char *path);
 
 /*
+ * @brief: unix-style error
+ */
+void unix_error(char *msg)
+{
+	fprintf(stderr, "%s: %s\n", msg, strerror(errno));
+	/* exit(0); */
+}
+
+/*
+ * @brief: posix-style error
+ */
+void posix_error(int code, char *msg)
+{
+	fprintf(stderr, "%s: %s\n", msg, strerror(code));
+	/* exit(0) */
+}
+
+/*
  * Socket wrapper function 
  */
 int going_socket(int domain, int type, int protocol);
