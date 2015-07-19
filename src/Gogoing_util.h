@@ -20,6 +20,7 @@
 #include <string>
 #include <string.h>
 #include <fcntl.h>
+#include <time.h>
 
 using namespace std;
 
