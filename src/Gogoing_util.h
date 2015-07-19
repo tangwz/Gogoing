@@ -19,6 +19,7 @@
 #include <strings.h>
 #include <string>
 #include <string.h>
+#include <fcntl.h>
 
 using namespace std;
 

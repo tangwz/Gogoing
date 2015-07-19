@@ -10,6 +10,36 @@
 
 #include "Gogoing_util.h"
 
+/*
+ * @brief: Get system time.
+ * @param: None.
+ * @return: System time,e.g. Thu, 16 Jul 2015 11:28:35 GMT.
+ */
+string going_time_get()
+{
+
+}
+
+/*
+ * @brief: set file descriptor non-blocking.
+ * @param fd: file descriptor.
+ * @return: None
+ */
+void going_set_nonblocking(int fd)
+{
+	int flags = fcntl(fd, F_GETFL, 0);
+	if(flags < 0){
+		log_err("set non-blocking failed.");
+		exit(-1);
+	}
+
+	flags |= O_NONBLOCK;
+	int ret = fcntl(fd, F_SETFL, flags);
+	if(ret < 0){
+		log_err("set non-blocking failed.");
+		exit(-1);
+	}
+}
 
 /*
  * Socket wrapper function 
