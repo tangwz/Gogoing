@@ -9,6 +9,7 @@
  */
 
 #include "Gogoing_util.h"
+#include "Gogoing_dbg.h"
 
 /*
  * @brief: Get system time.
@@ -101,6 +102,16 @@ string going_time_get()
 }
 
 /*
+ * @brief: 根据http请求包中的url和配置文件中的docroot配置选项构造url
+ * @param url: url
+ * @return: real url(absolute path ) 
+ */
+string going_make_url(const string& url)
+{
+	
+}
+
+/*
  * @brief: set file descriptor non-blocking.
  * @param fd: file descriptor.
  * @return: None
@@ -128,7 +139,7 @@ int going_socket(int domain, int type, int protocol)
 {
 	int listen_fd;
 	if( (listen_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
-		perror("socket create failed.");
+		log_err("socket create failed.");
 		exit(-1);
 	}
 	return listen_fd;
@@ -137,7 +148,7 @@ int going_socket(int domain, int type, int protocol)
 void going_listen(int sockfd, int backlog)
 {
 	if(listen(sockfd, backlog) == -1){
-		perror("listen failed.");
+		log_err("listen failed.");
 		exit(-1);
 	}
 }
@@ -145,7 +156,7 @@ void going_listen(int sockfd, int backlog)
 void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen)
 {
 	if(bind(sockfd, addr, addrlen) < 0){
-		perror("bind failed.");
+		log_err("bind failed.");
 		exit(-1);
 	}
 }
@@ -162,7 +173,7 @@ void *going_calloc(size_t nmemb, size_t size)
 {
 	void *ptr = calloc(nmemb, size);
 	if(NULL == ptr){
-		debug("going_calloc failed.");
+		log_err("going_calloc failed.");
 		exit(-1);
 	}
 	return ptr;
@@ -172,7 +183,7 @@ void *going_malloc(size_t size)
 {
 	void *ptr = malloc(size);
 	if(NULL == ptr){
-		debug("going_malloc failed.");
+		log_err("going_malloc failed.");
 		exit(-1);
 	}
 	return ptr;

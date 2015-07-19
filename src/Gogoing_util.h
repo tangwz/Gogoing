@@ -21,6 +21,8 @@
 #include <string.h>
 #include <fcntl.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -32,6 +34,13 @@ using namespace std;
 string going_time_get();
 
 /*
+ * @brief: 根据http请求包中的url和配置文件中的docroot配置选项构造url
+ * @param url: url
+ * @return: real url(absolute path ) 
+ */
+string going_make_url(const string& url);
+
+/*
  * @brief: Parse config file.
  * @param path: file path + file name
  * @return: parse failed, -1; parse succeed, 0.
@@ -39,18 +48,18 @@ string going_time_get();
 int going_parse_config(const char *path);
 
 /*
- * @brief: set file descriptor non-blocking.
- * @param fd: file descriptor.
- * @return: None
- */
-void going_set_nonblocking(int fd);
-
-/*
  * @brief: Get file length
  * @param path: file path + file name
  * @return: file length
  */
 int going_get_file_length(const char *path);
+
+/*
+ * @brief: set file descriptor non-blocking.
+ * @param fd: file descriptor.
+ * @return: None
+ */
+void going_set_nonblocking(int fd);
 
 /*
  * @brief: unix-style error
