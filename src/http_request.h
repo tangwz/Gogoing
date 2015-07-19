@@ -92,6 +92,19 @@ inline const char* going_mime_type2value(const char* type)
 #define GOING_HTTP_BAD_GATEWAY     		  502
 #define GOING_HTTP_SERVICE_UNAVAILABLE 	  503
 
+char going_ok[]            = "OK";
+char going_badrequest[]    = "Bad Request";
+char going_forbidden[]     = "Forbidden";
+char going_notfound[]      = "Not Found";
+char going_noimplemented[] = "No Implemented";
+/*
+ * @brief: 根据HTTP状态码返回友好语句
+ * @param: HTTP status code
+ * @return: 相应语句
+ */
+char *going_get_state_by_codes(int http_codes);
+
+/* HTTP response */
 
 
 #endif
