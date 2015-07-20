@@ -11,6 +11,9 @@
 #include "Gogoing_util.h"
 #include "Gogoing_dbg.h"
 
+/* parse config file and get key-value.e.g. key=docroot value=/home/zxh/desktop/code/webserver */
+map<string, int> going_config_keyword_map;
+
 /*
  * @brief: Get system time.
  * @param: None.
@@ -108,7 +111,120 @@ string going_time_get()
  */
 string going_make_url(const string& url)
 {
-	
+	string real_url, url2;
+
+	int n = 0;
+
+	if((n = url.find(going_domain, 0)) != string::npos)//url中包含域名，要将其删去
+		url2 = url.substr(going_domain.size(), url.size() - going_domain.size());
+	else
+		url2 = url;
+
+	if(going_docroot[going_docroot.size() - 1] == '/')//配置项docroot末尾有'/'
+	{
+		if(url2[0] == '/')
+			real_url = going_docroot + url2.erase(0, 1);
+		else
+			real_url = going_docroot + url2;
+	}else{//配置项末尾没有'/'
+		if(url2[0] == '/')
+			real_url = going_docroot + url2;
+		else
+			real_url = going_docroot + '/' + url2;
+	}
+
+	return real_url;
+}
+
+/*
+ * @brief: Get file length
+ * @param path: file path + file name
+ * @return: file length
+ */
+int going_get_file_length(const char *path)
+{
+	struct stat buf;
+	/*
+	 * stat函数：通过文件名获取文件信息，并保存在buf所指的结构体stat中 
+	 * http://linux.die.net/man/2/stat
+	 */
+	int ret = stat(path, &buf);
+	if(ret == -1){
+		log_err("going_get_file_length failed.");
+		exit(-1);
+	}
+	return (int)buf.st_size;
+}
+
+/*
+ * @brief: Get file modified time
+ * @param path: file path + file name
+ * @return: file modified time
+ */
+string going_get_file_modified_time(const char *path)
+{
+	struct stat buf;
+	int ret = stat(path, &buf);
+	if(ret == -1){
+		log_err("going_get_file_modified_time failed.");
+		exit(-1);
+	}
+	char array[32] = {0};
+	snprintf(array, sizeof(array), "%s", ctime(&buf.st_mtime));
+	return string(array, array + strlen(array));
+}
+
+/*
+ * @brief: 初始化全局变量going_config_keyword_map，必须在使用going_config_keyword_map前调用此函数
+ * @param: None
+ * @return: None
+ */
+void going_init_config_keyword_map()
+{
+	going_config_keyword_map.insert(make_pair("docroot", GOING_DOCROOT));
+	going_config_keyword_map.insert(make_pair("domain", GOING_DOCROOT));
+}
+
+/*
+ * @brief: Parse config file.
+ * @param path: file path + file name
+ * @return: parse failed, -1; parse succeed, 0.
+ */
+int going_parse_config(const char *path)
+{
+	going_init_config_keyword_map();
+	int ret = 0;
+	fstream infile(path, fstream::in);
+	string line, word;
+	if(!infile){
+		printf("%s can't open\n", path);
+		infile.close;
+		return -1;
+	}
+	while(getline(infile, line))
+	{
+		stringstream stream(line);
+		stream >> word;//keyword
+		map<string, int>::const_iterator cit = going_config_keyword_map.find(word);
+		if(cit == going_config_keyword_map.end()){
+			printf("can't find keyword.\n");
+			infile.close();
+			return -1;
+		}
+		switch(cit -> second){
+			case GOING_DOCROOT:
+				stream >> going_docroot;
+				break;
+			case GOING_DOMAIN:
+				stream >> going_domain;
+				break;
+			default:
+				infile.close();
+				return -1;
+		}
+	}
+	infile.close();
+	return 0;
 }
 
 /*

@@ -23,8 +23,16 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <fstream>
+#include <iostream>
+#include <map>
 
 using namespace std;
+
+extern string going_docroot;
+#define GOING_DOCROOT 1
+extern string going_domain;
+#define GOING_DOMAIN  2
 
 /*
  * @brief: Get system time.
@@ -41,11 +49,16 @@ string going_time_get();
 string going_make_url(const string& url);
 
 /*
- * @brief: Parse config file.
- * @param path: file path + file name
- * @return: parse failed, -1; parse succeed, 0.
+ * @brief: make sure file is existed
+ * @param: path is absolute path + file name
+ * @return: file isn't existed, -1;existed,others.
  */
-int going_parse_config(const char *path);
+inline int going_is_file_existed(const char* path)
+{
+	int ret = open(path, O_RDONLY | O_EXCL);
+	close(ret);
+	return ret;
+}
 
 /*
  * @brief: Get file length
@@ -53,6 +66,28 @@ int going_parse_config(const char *path);
  * @return: file length
  */
 int going_get_file_length(const char *path);
+
+/*
+ * @brief: Get file modified time
+ * @param path: file path + file name
+ * @return: file modified time
+ */
+string going_get_file_modified_time(const char *path);
+
+/*
+ * @brief: 初始化全局变量going_config_keyword_map，必须在使用going_config_keyword_map前调用此函数
+ * @param: None
+ * @return: None
+ */
+void going_init_config_keyword_map();
+
+/*
+ * @brief: Parse config file.
+ * @param path: file path + file name
+ * @return: parse failed, -1; parse succeed, 0.
+ */
+int going_parse_config(const char *path);
+
 
 /*
  * @brief: set file descriptor non-blocking.
