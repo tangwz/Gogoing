@@ -43,21 +43,36 @@ typedef struct _going_http_header_t
 void going_print_http_header_header(const going_header& head);
 
 /*
- * @brief: Print going_http_header_t
+ * @brief: Print going_http_header_t.
  * @param: going_http_header_t pointer.
- * @return: None
+ * @return: None.
  */
 void going_print_http_header(going_http_header_t *phttphdr);
 
 /*
- * 
+ * @brief: alloc memory to going_http_header_t.
+ * @param: None.
+ * @return: allocate failed, NULL; success, others.
  */
 going_http_header_t *going_alloc_http_header();
 
+/*
+ * @brief: free going_http_header_t's memory.
+ * @param phttphdr: going_http_header_t pointer.
+ * @return: NULL.
+ */
 void going_free_http_header(going_http_header_t *phttphdr);
 
-bool going_parse_http_request(const string7 http_request, going_http_header_t* phttphdr);
+/*
+ * @brief: parse http_request
+ * @param http_request: parsed http_request; phttphdr: save the value.
+ * @return: success, true; failed, false.
+ */
+bool going_parse_http_request(const string& http_request, going_http_header_t* phttphdr);
 
+/*
+ * @brief: 根据key的值在phttphdr所指向的going_http_header_t中查找相对应的值
+ */
 string going_get_value_from_http_header(const string& key, const going_header& header);
 
 #endif
