@@ -72,6 +72,8 @@ bool going_parse_http_request(const string& http_request, going_http_header_t* p
 
 /*
  * @brief: 根据key的值在phttphdr所指向的going_http_header_t中查找相对应的值
+ * @param key: keyword; header.
+ * @return: find failed, -1; 
  */
 string going_get_value_from_http_header(const string& key, const going_header& header);
 
