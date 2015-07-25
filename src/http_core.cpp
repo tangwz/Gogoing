@@ -184,3 +184,73 @@ void going_thread_num_minus()
  * @return: The value of going_thread_num.
  */
 int32_t going_thread_num_read();
+
+/*
+ * @brief: 根据解析下来的going_http_header_t来处理客户的请求.
+ * @param phttpdr: 指向要处理的going_http_header_t; out: 保存处理的结果，http响应包.
+ * @return: http status code.
+ *
+ * 目前支持的请求首部：
+ * 目前支持的响应首部：
+ */
+int going_do_http_header(going_http_header_t *phttpdr, string& out)
+{
+	char status_line[256] = {0};
+	string crlf("\r\n");
+	string server("Server: Gogoing\r\n");
+	string Public("Public: GET, HEAD\r\n");
+	string content_base = "Content-base: " + going_domain + crlf;
+	string date = "Date: " + going_time_get() + crlf;
+
+	string content_length("Content-Length: ");
+	string content_location("Content-Location: ");
+	string last_modify("Last-Modify: ");
+
+	if(phttphdr == NULL){
+		snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+				GOING_HTTP_BAD_REQUEST, going_get_state_by_codes(GOING_HTTP_BAD_REQUEST));
+		out = status_line + crlf;
+		return GOING_HTTP_BAD_REQUEST;
+	}
+
+	string method = phttphdr->method;
+	string real_url = going_make_url(phttphdr->url);
+	string version = phttphdr->version;
+	if(method == "GET" || method == "HEAD"){
+		if(going_is_file_existed(real_url.c_str()) == -1){
+			snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+					GOING_HTTP_NOT_FOUND, going_get_state_by_codes(GOING_HTTP_NOT_FOUND));
+			out += status_line;	
+			return GOING_HTTP_NOT_FOUND;
+		}else{
+			int len = going_get_file_length(real_url.c_str());
+			snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+					GOING_HTTP_OK, going_get_state_by_codes(GOING_HTTP_OK));
+			out += status_line;
+			snprintf(status_line, sizeof(status_line), "%d\r\n", len);
+			out += content_length + status_line;
+			out += server + content_base + date;
+			out += last_modify + going_get_file_modified_time(real_url.c_str()) + crlf;
+		}
+	}
+	else if(method == "PUT"){
+		snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+				GOING_HTTP_NOT_IMPLEMENTED, going_get_state_by_codes(GOING_HTTP_NOT_IMPLEMENTED));
+		out += status_line + server + Public + date + crlf;
+		return GOING_HTTP_NOT_IMPLEMENTED;
+	}
+	else if(method == "DELETE"){
+		snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+				GOING_HTTP_NOT_IMPLEMENTED, going_get_state_by_codes(GOING_HTTP_NOT_IMPLEMENTED));
+		out += status_line + server + Public + date + crlf;
+		return GOING_HTTP_NOT_IMPLEMENTED;
+	}
+	else{
+		snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+				GOING_HTTP_BAD_REQUEST, going_get_state_by_codes(GOING_HTTP_BAD_REQUEST));
+		out = status_line + crlf;
+		return GOING_HTTP_BAD_REQUEST;
+	}
+
+	return GOING_HTTP_OK;
+}

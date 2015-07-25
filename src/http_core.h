@@ -68,4 +68,14 @@ void going_thread_num_minus();
  */
 int32_t going_thread_num_read();
 
+/*
+ * @brief: 根据解析下来的going_http_header_t来处理客户的请求.
+ * @param phttpdr: 指向要处理的going_http_header_t; out: 保存处理的结果，http响应包.
+ * @return: http status code.
+ *
+ * 目前支持的请求首部：
+ * 目前支持的响应首部：
+ */
+int going_do_http_header(going_http_header_t *phttpdr, string& out);
+
 #endif
