@@ -249,6 +249,112 @@ void going_set_nonblocking(int fd)
 }
 
 /*
+ * @brief：设置套接字SO_REUSEADDR选项
+ * @param sockfd：要设置的套接字
+ * @return: None
+ */
+ void going_set_reuse_addr(int sockfd)
+ {
+ 	int on = 1;
+ 	int ret = setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+ 	if(ret < 0){
+ 		log_err("setsockopt: SO_REUSEADDR failed.");
+ 		exit(-1);
+ 	}
+ }
+
+/*
+ * @brief：开启套接字TCP_NODELAY选项，关闭nagle算法
+ * @param sockfd：要设置的套接字
+ * @return: None
+ */
+ void going_set_off_tcp_nagle(int sockfd)
+ {
+ 	int on = 1;
+ 	int ret = setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &on, sizeof(on));
+ 	if(ret < 0){
+ 		log_err("setsockopt: TCP_NODELAY ON failed.");
+ 		exit(-1);
+ 	} 	
+ }
+
+/*
+ * @brief：关闭套接字TCP_NODELAY选项，开启nagle算法
+ * @param sockfd：要设置的套接字
+ * @return: None.
+ */
+ void tyhp_set_on_tcp_nagle(int sockfd)
+ {
+ 	int off = 0;
+ 	int ret = setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &off, sizeof(off));
+ 	if(ret < 0){
+ 		log_err("setsockopt: TCP_NODELAY OFF failed.");
+ 		exit(-1);
+ 	}
+ }
+
+/*
+ * @brief：开启套接字TCP_CORK选项
+ * @param sockfd：要设置的套接字
+ * @return: None.
+ */
+ void tyhp_set_on_tcp_cork(int sockfd)
+ {
+ 	int on = 1;
+ 	int ret = setsockopt(sockfd, SOL_TCP, TCP_CORK, &on, sizeof(on));
+ 	if(ret < 0){
+ 		log_err("setsockopt: TCP_CORK ON failed.");
+ 		exit(-1);
+ 	}
+ }
+
+/*
+ * @brief：关闭套接字TCP_CORK选项
+ * @param sockfd：要设置的套接字
+ * @return: None.
+ */
+ void tyhp_set_off_tcp_cork(int sockfd)
+ {
+ 	int off = 0;
+ 	int ret = setsockopt(sockfd, SOL_TCP, TCP_CORK, &off, sizeof(off));
+ 	if(ret < 0){
+ 		log_err("setsockopt: TCP_CORK OFF failed.");
+		exit(-1);
+ 	}
+ }
+
+/*
+ * @brief：设置套接字SO_RCVTIMEO选项，接收超时
+ * @param：sockfd要设置的套接字, sec秒, usec毫秒
+ * @return: None.
+ */
+ void tyhp_set_recv_timeo(int sockfd, int sec, int usec)
+ {
+ 	struct timeval time = {sec, usec};
+ 	int ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &time, sizeof(time));
+ 	if(ret < 0){
+ 		log_err("setsockopt: SO_RCVTIMEO failed.");
+ 		exit(-1);
+ 	}
+ }
+
+/*
+ * @brief：设置套接字SO_SNDTIMEO选项，发送超时
+ * @param：sockfd要设置的套接字, sec秒, usec毫秒
+ * @return: None.
+ */
+ void tyhp_set_snd_timeo(int sockfd, int sec, int usec)
+ {
+ 	struct timeval time = {sec, usec};
+ 	int ret = setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &time, sizeof(time));
+ 	if(ret < 0){
+ 		log_err("setsockopt: SO_SNDTIMEO failed.");
+ 		exit(-1);
+ 	}
+ }
+
+
+/*
  * Socket wrapper function 
  */
 int going_socket(int domain, int type, int protocol)

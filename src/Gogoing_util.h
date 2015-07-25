@@ -97,6 +97,55 @@ int going_parse_config(const char *path);
 void going_set_nonblocking(int fd);
 
 /*
+ * @brief：设置套接字SO_REUSEADDR选项
+ * @param sockfd：要设置的套接字
+ * @return: None
+ */
+ void going_set_reuse_addr(int sockfd);
+
+/*
+ * @brief：开启套接字TCP_NODELAY选项，关闭nagle算法
+ * @param sockfd：要设置的套接字
+ * @return: None
+ */
+ void going_set_off_tcp_nagle(int sockfd);
+
+/*
+ * @brief：关闭套接字TCP_NODELAY选项，开启nagle算法
+ * @param sockfd：要设置的套接字
+ * @return: None.
+ */
+ void tyhp_set_on_tcp_nagle(int sockfd);
+
+/*
+ * @brief：开启套接字TCP_CORK选项
+ * @param sockfd：要设置的套接字
+ * @return: None.
+ */
+ void tyhp_set_on_tcp_cork(int sockfd);
+
+/*
+ * @brief：关闭套接字TCP_CORK选项
+ * @param sockfd：要设置的套接字
+ * @return: None.
+ */
+ void tyhp_set_off_tcp_cork(int sockfd);
+
+/*
+ * @brief：设置套接字SO_RCVTIMEO选项，接收超时
+ * @param：sockfd要设置的套接字, sec秒, usec毫秒
+ * @return: None.
+ */
+ void tyhp_set_recv_timeo(int sockfd, int sec, int usec);
+
+/*
+ * @brief：设置套接字SO_SNDTIMEO选项，发送超时
+ * @param：sockfd要设置的套接字, sec秒, usec毫秒
+ * @return: None.
+ */
+ void tyhp_set_snd_timeo(int sockfd, int sec, int usec);
+
+/*
  * @brief: unix-style error
  */
 void unix_error(char *msg)
