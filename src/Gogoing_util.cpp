@@ -283,7 +283,7 @@ void going_set_nonblocking(int fd)
  * @param sockfd：要设置的套接字
  * @return: None.
  */
- void tyhp_set_on_tcp_nagle(int sockfd)
+ void going_set_on_tcp_nagle(int sockfd)
  {
  	int off = 0;
  	int ret = setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &off, sizeof(off));
@@ -298,7 +298,7 @@ void going_set_nonblocking(int fd)
  * @param sockfd：要设置的套接字
  * @return: None.
  */
- void tyhp_set_on_tcp_cork(int sockfd)
+ void going_set_on_tcp_cork(int sockfd)
  {
  	int on = 1;
  	int ret = setsockopt(sockfd, SOL_TCP, TCP_CORK, &on, sizeof(on));
@@ -313,7 +313,7 @@ void going_set_nonblocking(int fd)
  * @param sockfd：要设置的套接字
  * @return: None.
  */
- void tyhp_set_off_tcp_cork(int sockfd)
+ void going_set_off_tcp_cork(int sockfd)
  {
  	int off = 0;
  	int ret = setsockopt(sockfd, SOL_TCP, TCP_CORK, &off, sizeof(off));
@@ -328,7 +328,7 @@ void going_set_nonblocking(int fd)
  * @param：sockfd要设置的套接字, sec秒, usec毫秒
  * @return: None.
  */
- void tyhp_set_recv_timeo(int sockfd, int sec, int usec)
+ void going_set_recv_timeo(int sockfd, int sec, int usec)
  {
  	struct timeval time = {sec, usec};
  	int ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &time, sizeof(time));
@@ -343,7 +343,7 @@ void going_set_nonblocking(int fd)
  * @param：sockfd要设置的套接字, sec秒, usec毫秒
  * @return: None.
  */
- void tyhp_set_snd_timeo(int sockfd, int sec, int usec)
+ void going_set_snd_timeo(int sockfd, int sec, int usec)
  {
  	struct timeval time = {sec, usec};
  	int ret = setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &time, sizeof(time));
