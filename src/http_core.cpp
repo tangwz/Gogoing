@@ -77,14 +77,81 @@ begin:
 			goto out;
 		}
 
-		cout<<"parsed http request packet:"<<endl;
+		cout<<"parsed http request packet: "<<endl;
 		going_print_http_header(phttphdr);
 
 		string out;
 		int http_code = going_do_http_header(phttphdr, out);
 
+		/* debug */
+		cout << "http response packet: " << out << endl;
 
+		char *out_buff = (char *)going_malloc(out.size());
+		if(out_buff == NULL)
+			goto out;
+		for(int i = 0; i != out.size(); ++i)
+			out_buff[i] = out[i];
+		out_buff[i] =  '\0';
+
+		int nwrite = 0; n = 0;
+		if(http_codes == GOING_HTTP_BAD_REQUEST     ||
+		   http_codes == GOING_HTTP_NOT_IMPLEMENTED ||
+		   http_codes == GOING_HTTP_NOT_FOUND       ||
+		   (http_codes == GOING_HTTP_OK && phttphdr->method == "HEAD")){
+			while((n = write(conn_sock, out_buff + nwrite, i)) != 0){
+				if(n == -1){
+					if(errno == EINTR)
+						continue;
+					else
+						goto out;
+				}
+				nwrite += n;
+			}
+		}
+		if(http_codes == GOING_HTTP_OK){
+			if(phttphdr->method == "GET"){
+				while((n = write(conn_sock, out_buff + nwrite, i)) != 0){
+					cout << n << endl;
+					if(n == -1){
+						if(errno == EINTR)
+							continue;
+						else
+							goto out;
+					}
+					nwrite += n;
+				}
+				string real_url = going_make_url(phttphdr->url);
+				int fd = open(real_url.c_str(), O_RDONLY);
+				int file_size = going_get_file_length(real_url.c_str());
+				cout << "file size: "<< file_size << endl;
+				int nwrite = 0;
+				cout << "sendfile: " << real_url.c_str() <<endl;
+			again:
+				if((sendfile(conn_sock, fd, (off_t *)&nwrite, file_size)) < 0)
+					perror("sendfile");
+				if(nwrite < file_size)
+					goto again;
+				cout << "sendfile ok: " << nwrite << endl;
+			}
+		}
+		free(out_buff);
+		//timeout 4min
+		nfds = going_epoll_wait(epollfd, events, 2, TIMEOUT);
+		if(0 == nfds)//timeout
+			goto out;
+		for(int i = 0; i < nfds; ++i){
+			if(events[i].data.fd == conn_sock)
+				goto begin;
+			else
+				goto out;
+		}
 	}
+
+out:
+	going_free_http_header(phttphdr);
+	close(conn_sock);
+	going_thread_num_minus();
+	printf("NO.%d thread ends now...\n", (unsigned int)tid);
 }
 
 /*
