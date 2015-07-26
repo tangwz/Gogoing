@@ -385,7 +385,23 @@ void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen)
 
 int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen)
 {
-	
+	int ret_fd = 0;
+	for(;;){
+		ret_fd = accept(sockfd, addr, addrlen);
+		if(ret_fd > 0)
+			break;
+		else if(ret_fd = -1){
+			//由于我们把监听套接字设置为了非阻塞模式
+			if(errno != EAGAIN && errno != EPROTO && 
+				errno != EINTR && errno != ECONNABORTED){
+				log_err("accept failed.");
+				exit(-1);
+			}
+		}else{
+			continue;
+		}
+	}
+	return ret_fd;
 }
 
 struct servent* going_getservbyname(const char* name, const char* proto)
