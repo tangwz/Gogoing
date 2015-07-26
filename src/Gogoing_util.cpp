@@ -388,6 +388,16 @@ int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen)
 	
 }
 
+struct servent* going_getservbyname(const char* name, const char* proto)
+{
+	struct servent* pservent;
+	if((pservent = getservbyname(name, proto)) == NULL){
+		log_err("getservbyname failed.");
+		exit(-1);
+	}
+	return pservent;
+}
+
 /*
  * Memeroy wrapper function
  */

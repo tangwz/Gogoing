@@ -170,6 +170,7 @@ int going_socket(int domain, int type, int protocol);
 void going_listen(int sockfd, int backlog);
 void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen);
 int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen);
+struct servent* going_getservbyname(const char* name, const char* proto);
 
 /*
  * Memeroy wrapper function
