@@ -17,7 +17,7 @@ __注：名字叫Gogoing，但和Golang没有任何关系。PS:注释尽力用�
  - non-blocking I/O
  - multithreading
 
-## Support
+## Support(Completed)
 
  - Support GET/HEAD/POST method
  - Sendfile
