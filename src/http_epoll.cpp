@@ -10,6 +10,7 @@
 
 #include "http_epoll.h"
 #include "Gogoing_dbg.h"
+#include "Gogoing_util.h"
 
 struct epoll_event *events;
 

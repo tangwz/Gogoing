@@ -198,7 +198,7 @@ int going_parse_config(const char *path)
 	string line, word;
 	if(!infile){
 		printf("%s can't open\n", path);
-		infile.close;
+		infile.close();
 		return -1;
 	}
 	while(getline(infile, line))
@@ -383,7 +383,7 @@ void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen)
 	}
 }
 
-int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen)
+int going_accept(int sockfd, struct sockaddr* addr, socklen_t* addrlen)
 {
 	int ret_fd = 0;
 	for(;;){

@@ -41,7 +41,7 @@ mime_node going_mime[] =
 	{".mpg", "video/mpeg"},
 	{".avi", "video/x-msvideo"},
 	{NULL ,NULL}
-}
+};
 
 /*
  * @brief: mime type convert to mime value

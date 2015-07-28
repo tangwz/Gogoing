@@ -26,6 +26,8 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <errno.h>
+#include <netinet/tcp.h>
 
 using namespace std;
 

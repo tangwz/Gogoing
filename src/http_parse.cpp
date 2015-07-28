@@ -9,7 +9,7 @@
  */
 
 #include "http_parse.h"
-#include “Gogoing_dbg.h"
+#include "Gogoing_dbg.h"
 
 /*
  * @brief: Print going_http_header_t's header.
@@ -40,7 +40,7 @@ void going_print_http_header(going_http_header_t *phttphdr)
 	}
 
 	cout << phttphdr->method << " " << phttphdr->url << " " << phttphdr->version <<endl;
-	going_print_http_header_header(phttphdr->head);
+	going_print_http_header_header(phttphdr->header);
 	cout << endl << phttphdr->body << endl;
 }
 
@@ -83,7 +83,7 @@ bool going_parse_http_request(const string& http_request, going_http_header_t* p
 		return false;
 	}
 	if(phttphdr == NULL){
-		log_err("going_parse_http_request: phttphdr is NULL.")
+		log_err("going_parse_http_request: phttphdr is NULL.");
 		return false;
 	}
 
