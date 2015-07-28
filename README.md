@@ -20,14 +20,13 @@ __注：名字叫Gogoing，但和Golang没有任何关系。PS:注释尽力用�
 ## Support
 
  - Support GET/HEAD/POST method
- - Support Keep-Alive
  - Sendfile
+ - Conf file
 
 ## Todo
 
+ - Support Keep-Alive
  - add command line parameter
- - add conf file
- - sendfile
  - dynamic content
  - other HTTP/1.1 features
  - memory pool
