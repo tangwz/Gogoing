@@ -22,12 +22,17 @@
 #include <fcntl.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <sys/sendfile.h>
 #include <unistd.h>
+#include <utility>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <map>
 #include <errno.h>
 #include <netinet/tcp.h>
+
+#include "Gogoing_dbg.h"
 
 using namespace std;
 
@@ -171,7 +176,7 @@ void posix_error(int code, char *msg)
 int going_socket(int domain, int type, int protocol);
 void going_listen(int sockfd, int backlog);
 void going_bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen);
-int going_accept(int sockfd, struct sockaddr* addr, socklen_t addrlen);
+int going_accept(int sockfd, struct sockaddr* addr, socklen_t* addrlen);
 struct servent* going_getservbyname(const char* name, const char* proto);
 
 /*

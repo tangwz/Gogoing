@@ -17,12 +17,6 @@
 /******* 函数声明  *******/
 void *going_thread_func(void *param);
 
-/*
- * @brief: Number of threads.
- */
-int32_t going_thread_num = 0;
-pthread_mutex_t going_thread_num_mutex = PTHREAD_MUTEX_INITIALIZER;
-
 void going_thread_num_add();
 void going_thread_num_minus();
 int32_t going_thread_num_read();
@@ -31,6 +25,7 @@ int going_do_http_header(going_http_header_t *phttpdr, string& out);
 /******* web服务器程序入口函数 *******/
 int main(int argc, char const *argv[])
 {
+	int    conn_sock;
 	struct epoll_event ev;
 	struct epoll_event events[MAXEVENTS];
 	struct sockaddr_in server_addr;
@@ -93,7 +88,7 @@ int main(int argc, char const *argv[])
 			continue;
 		for(int n = 0; n != nfds; ++n){
 			if(events[n].data.fd == listen_fd){
-				int conn_sock = going_accept(listen_fd, (struct sockaddr *)&client_addr, addrlen);
+				conn_sock = going_accept(listen_fd, (struct sockaddr *)&client_addr, &addrlen);
 				going_set_nonblocking(conn_sock);
 				ev.events = EPOLLIN | EPOLLET;
 				ev.data.fd = conn_sock;
@@ -160,7 +155,7 @@ begin:
 		else if(0 == n)
 			break;
 		else if(-1 == n && errno == EINTR)
-			continue.
+			continue;
 		else if(-1 == n && errno == EAGAIN)
 			break;
 		else if(-1 == n && errno == EWOULDBLOCK){
@@ -185,7 +180,7 @@ begin:
 		going_print_http_header(phttphdr);
 
 		string out;
-		int http_code = going_do_http_header(phttphdr, out);
+		int http_codes = going_do_http_header(phttphdr, out);
 
 		/* debug */
 		cout << "http response packet: " << out << endl;
@@ -193,7 +188,8 @@ begin:
 		char *out_buff = (char *)going_malloc(out.size());
 		if(out_buff == NULL)
 			goto out;
-		for(int i = 0; i != out.size(); ++i)
+		int i;
+		for(i = 0; i != out.size(); ++i)
 			out_buff[i] = out[i];
 		out_buff[i] =  '\0';
 
@@ -297,7 +293,7 @@ int32_t going_thread_num_read();
  * 目前支持的请求首部：
  * 目前支持的响应首部：
  */
-int going_do_http_header(going_http_header_t *phttpdr, string& out)
+int going_do_http_header(going_http_header_t *phttphdr, string& out)
 {
 	char status_line[256] = {0};
 	string crlf("\r\n");

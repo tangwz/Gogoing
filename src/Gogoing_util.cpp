@@ -9,7 +9,6 @@
  */
 
 #include "Gogoing_util.h"
-#include "Gogoing_dbg.h"
 
 /* parse config file and get key-value.e.g. key=docroot value=/home/zxh/desktop/code/webserver */
 map<string, int> going_config_keyword_map;
@@ -390,7 +389,7 @@ int going_accept(int sockfd, struct sockaddr* addr, socklen_t* addrlen)
 		ret_fd = accept(sockfd, addr, addrlen);
 		if(ret_fd > 0)
 			break;
-		else if(ret_fd = -1){
+		else if(ret_fd == -1){
 			//由于我们把监听套接字设置为了非阻塞模式
 			if(errno != EAGAIN && errno != EPROTO && 
 				errno != EINTR && errno != ECONNABORTED){
