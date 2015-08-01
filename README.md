@@ -30,7 +30,7 @@
  - Memory pool
  - Close socket when timeout
 
-_可以写得更C++一点！！！_
+**可以写得更C++一点！！！**
 ## 参考资料：
 [《HTTP权威指南》](http://book.douban.com/subject/10746113/)
 
