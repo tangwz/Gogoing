@@ -29,6 +29,8 @@
  - Other HTTP/1.1 features
  - Memory pool
  - Close socket when timeout
+ - Support PHP
+ - *Lua interpreter*
 
 **可以写得更C++一点！！！**
 ## 参考资料：
