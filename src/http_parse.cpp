@@ -90,7 +90,7 @@ bool going_parse_http_request(const string& http_request, going_http_header_t* p
 	string crlf("\r\n"), crlfcrlf("\r\n\r\n");
 	size_t prev = 0, next = 0;
 
-	//parse http request first line.
+	/* parse http request first line. */
 	if((next = http_request.find(crlf, prev)) != string::npos){
 		string first_line(http_request.substr(prev, next - prev));
 		prev = next;
@@ -103,36 +103,36 @@ bool going_parse_http_request(const string& http_request, going_http_header_t* p
 		return false;
 	}
 
-	//find "\r\n\r\n"
+	/* find "\r\n\r\n" */
 	size_t pos_crlfcrlf = http_request.find(crlfcrlf, prev);
 	if(pos_crlfcrlf == string::npos){
 		log_err("going_parse_http_request: http_request has not  a \"\r\n\r\n\"");
 		return false;
 	}
 
-	//解析首部行
+	/* 解析首部行 */
 	string buff, key, value;
 	while(1){
 		next = http_request.find(crlf, prev + 2);
 
-		//如果找到的next不超过"\r\n\r\n"的位置
+		/* 如果找到的next不超过"\r\n\r\n"的位置 */
 		if(next <= pos_crlfcrlf){
-			//buff保存了一行
+			/* buff保存了一行 */
 			buff = http_request.substr(prev + 2, next - prev -2);
 			size_t end = 0;
-			//
+			/* */
 			for(; isblank(buff[end]); ++end)
 				;
 			int beg = end;
-			//
+			/* */
 			for(; buff[end] != ':' && !isblank(buff[end]); ++end)
 				;
 			key = buff.substr(beg,end - beg);
-			//
+			/* */
 			for(; (!isalpha(buff[end]) && !isdigit(buff[end])); ++end)
 				;
 			beg =end;
-			//
+			/* */
 			for(; next != end; ++end)
 				;
 			value = buff.substr(beg, end - beg);
