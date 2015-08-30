@@ -7,6 +7,7 @@ PROJECT(Gogoing)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 SET(CMAKE_CXX_COMPILER g++)
 ADD_COMPILE_OPTIONS("-Wall")
+
 SET(GOGOING_SOURCES
 	src/Gogoing_util.cpp
 	src/http_core.cpp
