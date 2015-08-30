@@ -14,6 +14,12 @@
 /* set timeout.(milliseconds) */
 #define TIMEOUT 1000*60*4
 
+/*
+ * @brief: Number of threads.
+ */
+int32_t going_thread_num = 0;
+pthread_mutex_t going_thread_num_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 /******* 函数声明  *******/
 void *going_thread_func(void *param);
 
@@ -92,15 +98,15 @@ int main(int argc, char const *argv[])
 				going_set_nonblocking(conn_sock);
 				ev.events = EPOLLIN | EPOLLET;
 				ev.data.fd = conn_sock;
-
+				// 将监听事件添加到epoll
 				going_epoll_add(epollfd, conn_sock, &ev);
 			}else{
 				epollfd_connfd.epollfd = epollfd;
 				epollfd_connfd.connfd = events[n].data.fd;
 				ev.data.fd = conn_sock;
-
+				// epoll不在监听这个事件
 				going_epoll_del(epollfd, conn_sock, &ev);
-
+				// 处理连接
 				pthread_create(&tid, &pthread_attr_detach, &going_thread_func, (void *)&epollfd_connfd);
 			}
 		}
@@ -183,7 +189,7 @@ begin:
 		int http_codes = going_do_http_header(phttphdr, out);
 
 		/* debug */
-		cout << "http response packet: " << out << endl;
+		cout << "http response packet: " <<endl << out << endl;
 
 		char *out_buff = (char *)going_malloc(out.size());
 		if(out_buff == NULL)

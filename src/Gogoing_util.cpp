@@ -192,7 +192,6 @@ void going_init_config_keyword_map()
 int going_parse_config(const char *path)
 {
 	going_init_config_keyword_map();
-	int ret = 0;
 	fstream infile(path, fstream::in);
 	string line, word;
 	if(!infile){

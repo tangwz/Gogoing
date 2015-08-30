@@ -42,12 +42,6 @@ string going_docroot("");
 void *going_thread_func(void *param);
 
 /*
- * @brief: Number of threads.
- */
-int32_t going_thread_num = 0;
-pthread_mutex_t going_thread_num_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-/*
  * @brief: going_thread_num add(Atomicity) 1.
  * @param: None.
  * @return: None.
