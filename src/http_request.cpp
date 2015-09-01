@@ -15,19 +15,19 @@
  * @param: HTTP status code
  * @return: 相应语句
  */
-char *going_get_state_by_codes(int http_codes)
+const char* going_get_state_by_codes(int http_codes)
 {
 	switch(http_codes){
 		case GOING_HTTP_OK:
-			return going_ok;
+			return "OK";
 		case GOING_HTTP_BAD_REQUEST:
-			return going_badrequest;
+			return "Bad Request";
 		case GOING_HTTP_FORBIDDEN:
-			return going_forbidden;
+			return "Forbidden";
 		case GOING_HTTP_NOT_FOUND:
-			return going_notfound;
+			return "Not Found";
 		case GOING_HTTP_NOT_IMPLEMENTED:
-			return going_noimplemented;
+			return "No Implemented";
 		default:
 			break;
 	}

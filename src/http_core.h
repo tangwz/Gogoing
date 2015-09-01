@@ -34,6 +34,49 @@ typedef struct _epollfd_connfd
 string going_domain("");
 string going_docroot("");
 
+/* define MIME type */
+typedef struct mime_node
+{
+	const char *type;
+	const char *value;
+}mime_node;
+
+mime_node going_mime[] = 
+{
+	{".html", "text/html"},
+	{".xml", "text/xml"},
+	{".txt", "text/plain"},
+	{".xhtml", "application/xhtml+xml"},
+	{".pdf", "application/pdf"},
+	{".word", "application/msword"},
+	{".gz", "application/x-gzip"},
+	{".tar", "application/x-tar"},
+	{".png", "image/png"},
+	{".gif", "image/gif"},
+	{".jpg", "image/jpg"},
+	{".jpeg", "image/jpeg"},
+	{".au", "audio/basic"},
+	{".mpeg", "video/mpeg"},
+	{".mpg", "video/mpeg"},
+	{".avi", "video/x-msvideo"},
+	{NULL ,NULL}
+};
+
+/*
+ * @brief: mime type convert to mime value
+ * @param type: mime type
+ * @return: if not exist, NULL;other return value pointer. 
+ */
+inline const char* going_mime_type2value(const char* type)
+{
+	for(int i = 0; going_mime[i].type != NULL; ++i)
+	{
+		if(strcmp(type, going_mime[i].type) == 0)
+			return going_mime[i].value;
+	}
+	return NULL;
+}
+
 /*
  * @brief: Handle client's thread.
  * @param param: Client's conn_sock.

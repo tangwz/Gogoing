@@ -16,48 +16,7 @@
 #include <sys/types.h>
 #include <string.h>
 
-/* define MIME type */
-typedef struct mime_node
-{
-	const char *type;
-	const char *value;
-}mime_node;
 
-mime_node going_mime[] = 
-{
-	{".html", "text/html"},
-	{".xml", "text/xml"},
-	{".txt", "text/plain"},
-	{".xhtml", "application/xhtml+xml"},
-	{".pdf", "application/pdf"},
-	{".word", "application/msword"},
-	{".gz", "application/x-gzip"},
-	{".tar", "application/x-tar"},
-	{".png", "image/png"},
-	{".gif", "image/gif"},
-	{".jpg", "image/jpg"},
-	{".jpeg", "image/jpeg"},
-	{".au", "audio/basic"},
-	{".mpeg", "video/mpeg"},
-	{".mpg", "video/mpeg"},
-	{".avi", "video/x-msvideo"},
-	{NULL ,NULL}
-};
-
-/*
- * @brief: mime type convert to mime value
- * @param type: mime type
- * @return: if not exist, NULL;other return value pointer. 
- */
-inline const char* going_mime_type2value(const char* type)
-{
-	for(int i = 0; going_mime[i].type != NULL; ++i)
-	{
-		if(strcmp(type, going_mime[i].type) == 0)
-			return going_mime[i].value;
-	}
-	return NULL;
-}
 
 /* MethodSPRequest-URISPHTTP-VersionCRLFMethod */
 #define GOING_HTTP_UNKNOWN                 0x0001
@@ -93,17 +52,12 @@ inline const char* going_mime_type2value(const char* type)
 #define GOING_HTTP_BAD_GATEWAY     		  502
 #define GOING_HTTP_SERVICE_UNAVAILABLE 	  503
 
-char going_ok[]            = "OK";
-char going_badrequest[]    = "Bad Request";
-char going_forbidden[]     = "Forbidden";
-char going_notfound[]      = "Not Found";
-char going_noimplemented[] = "No Implemented";
 /*
  * @brief: 根据HTTP状态码返回友好语句
  * @param: HTTP status code
  * @return: 相应语句
  */
-char *going_get_state_by_codes(int http_codes);
+const char* going_get_state_by_codes(int http_codes);
 
 /* HTTP response */
 
