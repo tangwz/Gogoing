@@ -3,7 +3,7 @@
 
 >-- Richard Feynman
 
-自己重新造的轮子，一个轻量型Http Server，用于综合考察学习了大半年的Linux服务器编程，理解服务器编程的本质。
+自己重新造的轮子，一个轻量型Http Server。
 
 ## 一次HTTP请求
 ![Gogoing](https://github.com/tangwz/WebServer/blob/master/docs/WebServer.png)
