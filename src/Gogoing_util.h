@@ -152,23 +152,21 @@ void going_set_nonblocking(int fd);
  */
  void going_set_snd_timeo(int sockfd, int sec, int usec);
 
-/*
- * @brief: unix-style error
- */
-void unix_error(char *msg)
+/**
+defined but temporarily not in use.
+static void unix_error(char *msg)
 {
 	fprintf(stderr, "%s: %s\n", msg, strerror(errno));
-	/* exit(0); */
+	
 }
 
-/*
- * @brief: posix-style error
- */
-void posix_error(int code, char *msg)
+static void posix_error(int code, char *msg)
 {
 	fprintf(stderr, "%s: %s\n", msg, strerror(code));
-	/* exit(0) */
+	
 }
+*/
+
 
 /*
  * Socket wrapper function 
