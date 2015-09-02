@@ -34,8 +34,8 @@ make [debug|release]
 
 ## To-do
 
+ - Thread-pool
  - Support Keep-Alive
- - Add command line parameter
  - Dynamic content
  - Other HTTP/1.1 features
  - Memory pool
