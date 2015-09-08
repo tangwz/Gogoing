@@ -41,8 +41,8 @@ int main(int argc, char const *argv[])
 	_epollfd_connfd epollfd_connfd;
 	pthread_t       tid;
 
-	if(argc != 3){
-		printf("Usage: %s <config_path> <listen_port>\n", argv[0]);
+	if(argc != 2){
+		printf("Usage: %s <config_path>\n", argv[0]);
 		exit(-1);
 	}
 	//Is configure existed?
@@ -67,8 +67,8 @@ int main(int argc, char const *argv[])
 	//通过服务名和协议名获得相应的知名端口
 	//struct servent* pservent = going_getservbyname("http", "tcp");
 	//uint16_t listen_port = pservent->s_port;
-	// 通过解析命令行定义listen_port
-	uint16_t listen_port = argv[2];
+	
+	uint16_t listen_port = 80;
 
 	bzero(&server_addr, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
