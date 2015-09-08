@@ -42,11 +42,10 @@ make [debug|release]
 
  - Support POST .etc
  - Thread-pool
- - Support Keep-Alive
+ - Support Keep-Alive(Close socket when timeout)
  - Dynamic content
  - Other HTTP/1.1 features
  - Memory pool
- - Close socket when timeout
  - Support PHP
  - *Lua interpreter*
 
