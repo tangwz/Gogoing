@@ -27,6 +27,8 @@ typedef struct _epollfd_connfd
 	int connfd;
 }_epollfd_connfd;
 
+/* epoll最大监听事件数 */
+#define MAXEVENTS 1024
 /* 监听队列最大数 */
 #define MAX_BACKLOG 100
 
