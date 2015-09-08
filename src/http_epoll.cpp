@@ -18,13 +18,13 @@ struct epoll_event *events;
  *  epoll_create1() returns a file descriptor referring to the new epoll instance.  
  *  This file descriptor is used for all the subsequent calls to the epoll interface. 
  */
-int going_epoll_create(int flags)
+int going_epoll_create(int size)
 {
 	//
-	int fd = epoll_create1(flags);
+	int fd = epoll_create(size);
 	check(fd > 0, "going_epoll create failed.");
 
-	events = (struct epoll_event *)going_malloc(sizeof(struct epoll_event) * MAXEVENTS);
+	// events = (struct epoll_event *)going_malloc(sizeof(struct epoll_event) * MAXEVENTS);
 	return fd;
 }
 
@@ -55,7 +55,15 @@ void going_epoll_del(int epfd, int fd, struct epoll_event* event)
 
 int going_epoll_wait(int epfd, struct epoll_event *event, int maxevents, int timeout)
 {
+again:
 	int n = epoll_wait(epfd, events, maxevents, timeout);
 	check(n > 0, "going_epoll_wait failed.");
+	if(errno != EINTR){
+		perror("epoll_wait");
+		exit(-1);
+	}
+	else
+		goto again;
+	
 	return n;
 }
