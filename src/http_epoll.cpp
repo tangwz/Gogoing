@@ -53,17 +53,9 @@ void going_epoll_del(int epfd, int fd, struct epoll_event* event)
 	return;
 }
 
-int going_epoll_wait(int epfd, struct epoll_event *event, int maxevents, int timeout)
+int going_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 {
-again:
 	int n = epoll_wait(epfd, events, maxevents, timeout);
-	check(n > 0, "going_epoll_wait failed.");
-	if(errno != EINTR){
-		perror("epoll_wait");
-		exit(-1);
-	}
-	else
-		goto again;
-	
+	check(n >= 0, "going_epoll_wait failed.");	
 	return n;
 }
