@@ -24,6 +24,7 @@ typedef map<string, string> going_header;
 
 #define make_going_header(key, value) make_pair((key), (value))
 
+// 保存从http request解析下来的值
 typedef struct _going_http_header_t
 {
 	string method;

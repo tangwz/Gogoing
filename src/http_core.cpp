@@ -78,12 +78,14 @@ int main(int argc, char const *argv[])
 	going_bind(listen_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
 	going_listen(listen_fd, MAX_BACKLOG);
 
-	//创建epoll文件描述符
+	// 创建epoll文件描述符
 	int epollfd = going_epoll_create(MAXEVENTS);
 
+	// 设置要处理的事件类型
 	ev.events = EPOLLIN;
+	// 设置与要处理的事件相关的文件描述符
 	ev.data.fd = listen_fd;
-	//将监听事件加入epoll中
+	// 将监听事件加入epoll中
 	going_epoll_add(epollfd, listen_fd, &ev);
 
 	//设置线程属性为detach
@@ -91,15 +93,19 @@ int main(int argc, char const *argv[])
 	pthread_attr_setdetachstate(&pthread_attr_detach, PTHREAD_CREATE_DETACHED);
 
 	for(;;){
-		//无限等待直到有描述符就绪
+		// 无限等待直到有描述符就绪
 		int nfds = going_epoll_wait(epollfd, events, MAXEVENTS, -1);
-		//若going_epoll_wait被中断则重新调用该函数
+		// 若going_epoll_wait被中断则重新调用该函数
 		if(nfds == -1 && errno == EINTR)
 			continue;
+
 		for(int n = 0; n != nfds; ++n){
+			// 处理监听套接字触发的事件
 			if(events[n].data.fd == listen_fd){
 				conn_sock = going_accept(listen_fd, (struct sockaddr *)&client_addr, &addrlen);
+				// 设置新连接上的套接字为非阻塞模式
 				going_set_nonblocking(conn_sock);
+				// 设置读事件和ET模式
 				ev.events = EPOLLIN | EPOLLET;
 				ev.data.fd = conn_sock;
 				// 将监听事件添加到epoll
@@ -118,6 +124,7 @@ int main(int argc, char const *argv[])
 
 	pthread_attr_destroy(&pthread_attr_detach);
 
+	// 关闭监听描述符
 	close(listen_fd);
 	return 0;
 }
@@ -142,7 +149,7 @@ void *going_thread_func(void *param)
 	ev.data.fd = conn_sock;
 	//客户连接的新epollfd
 	int epollfd = going_epoll_create(2);
-	going_epoll_add(epollfd, conn_sock, &ev);
+	going_epoll_add(epollfd, ev.data.fd, &ev);
 	int nfds = 0;
 
 	pthread_t tid = pthread_self();

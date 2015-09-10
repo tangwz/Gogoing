@@ -120,19 +120,19 @@ bool going_parse_http_request(const string& http_request, going_http_header_t* p
 			/* buff保存了一行 */
 			buff = http_request.substr(prev + 2, next - prev -2);
 			size_t end = 0;
-			/* */
+			/* 跳过前置空白符，到达首部关键字起始位置 */
 			for(; isblank(buff[end]); ++end)
 				;
 			int beg = end;
-			/* */
+			/* 到达首部关键字的结束位置 */
 			for(; buff[end] != ':' && !isblank(buff[end]); ++end)
 				;
 			key = buff.substr(beg,end - beg);
-			/* */
+			/* 跳至首部值的起始位置 */
 			for(; (!isalpha(buff[end]) && !isdigit(buff[end])); ++end)
 				;
 			beg =end;
-			/* */
+			/* 到达首部值的结束位置 */
 			for(; next != end; ++end)
 				;
 			value = buff.substr(beg, end - beg);
