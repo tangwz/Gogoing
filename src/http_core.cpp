@@ -28,18 +28,20 @@ void going_thread_num_minus();
 int32_t going_thread_num_read();
 int going_do_http_header(going_http_header_t *phttpdr, string& out);
 
+const char* going_get_state_by_codes(int http_codes);
+
 /******* web服务器程序入口函数 *******/
 int main(int argc, char const *argv[])
 {
-	int    conn_sock;
+	int    			   conn_sock;
 	struct epoll_event ev;
 	struct epoll_event events[MAXEVENTS];
 	struct sockaddr_in server_addr;
 	struct sockaddr_in client_addr;
-	socklen_t       addrlen;
-	pthread_attr_t  pthread_attr_detach;
-	_epollfd_connfd epollfd_connfd;
-	pthread_t       tid;
+	socklen_t          addrlen;
+	pthread_attr_t     pthread_attr_detach;
+	_epollfd_connfd    epollfd_connfd;
+	pthread_t          tid;
 
 	if(argc != 2){
 		printf("Usage: %s <config_path>\n", argv[0]);
@@ -114,7 +116,7 @@ int main(int argc, char const *argv[])
 				epollfd_connfd.epollfd = epollfd;
 				epollfd_connfd.connfd = events[n].data.fd;
 				ev.data.fd = conn_sock;
-				// epoll不在监听这个事件
+				// epoll不再监听这个事件
 				going_epoll_del(epollfd, conn_sock, &ev);
 				// 处理连接
 				pthread_create(&tid, &pthread_attr_detach, &going_thread_func, (void *)&epollfd_connfd);
@@ -228,7 +230,7 @@ begin:
 		if(http_codes == GOING_HTTP_OK){
 			if(phttphdr->method == "GET"){
 				while((n = write(conn_sock, out_buff + nwrite, i)) != 0){
-					cout << n << endl;
+					// cout << n << endl;
 					if(n == -1){
 						if(errno == EINTR)
 							continue;
@@ -347,7 +349,7 @@ int going_do_http_header(going_http_header_t *phttphdr, string& out)
 			snprintf(status_line, sizeof(status_line), "%d\r\n", len);
 			out += content_length + status_line;
 			out += server + content_base + date;
-			out += last_modify + going_get_file_modified_time(real_url.c_str()) + crlf;
+			out += last_modify + going_get_file_modified_time(real_url.c_str()) + crlf + crlf;
 		}
 	}
 	else if(method == "PUT"){
@@ -361,8 +363,12 @@ int going_do_http_header(going_http_header_t *phttphdr, string& out)
 				GOING_HTTP_NOT_IMPLEMENTED, going_get_state_by_codes(GOING_HTTP_NOT_IMPLEMENTED));
 		out += status_line + server + Public + date + crlf;
 		return GOING_HTTP_NOT_IMPLEMENTED;
-	}
-	else{
+	}else if(method == "POST"){
+		snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
+				GOING_HTTP_NOT_IMPLEMENTED, going_get_state_by_codes(GOING_HTTP_NOT_IMPLEMENTED));
+		out += status_line + server + Public + date + crlf;
+		return GOING_HTTP_NOT_IMPLEMENTED;
+	}else{
 		snprintf(status_line, sizeof(status_line), "HTTP/1.1 %d %s\r\n",
 				GOING_HTTP_BAD_REQUEST, going_get_state_by_codes(GOING_HTTP_BAD_REQUEST));
 		out = status_line + crlf;

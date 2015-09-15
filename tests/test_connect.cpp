@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	char array[102400];
 	int in = 0, nread = 0;
 	while((in = read(sockfd, array + nread, sizeof(array))) > 0){
-		cout << nread << endl;
+		// cout << nread << endl;
 		nread += in;
 		if(nread == 11510)
 			break;
