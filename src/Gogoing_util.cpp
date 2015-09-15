@@ -95,7 +95,7 @@ string going_time_get()
 	}
 	snprintf(buf, sizeof(buf), "%d", time_now->tm_year + 1900);
 	str_time += string(buf);
-	snprintf(buf, sizeof(buf), "%d:%d:%d ", time_now->tm_hour, time_now->tm_min, time_now->tm_sec);
+	snprintf(buf, sizeof(buf), " %d:%d:%d ", time_now->tm_hour, time_now->tm_min, time_now->tm_sec);
 	str_time += string(buf);
 
 	str_time += "GMT";
@@ -181,7 +181,7 @@ string going_get_file_modified_time(const char *path)
 void going_init_config_keyword_map()
 {
 	going_config_keyword_map.insert(make_pair("docroot", GOING_DOCROOT));
-	going_config_keyword_map.insert(make_pair("domain", GOING_DOCROOT));
+	going_config_keyword_map.insert(make_pair("domain", GOING_DOMAIN));
 }
 
 /*
