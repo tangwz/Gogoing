@@ -12,7 +12,7 @@
 **当然，要解决的问题不止一次请求，还要考虑当并发量上来的时候怎么办？怎样做到高效？**
 
 ## Compile and Run
-### Compile
+**Compile:**
 ```
 cd Gogoing
 mkdir build
@@ -21,7 +21,7 @@ cmake ..
 make [debug|release]
 ```
 
-### Run
+**Run:**
 ```
 ./Gogoing ../gogoing.conf
 ```
